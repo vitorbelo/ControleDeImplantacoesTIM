@@ -5,41 +5,56 @@ header("Content-Type: text/html; charset=utf-8", true);
 <html lang="en">
 
 <head>
-    <title>Controle Implantação</title>
-    <link rel="sortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />;
+    <link rel="sortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Controle implantações - TIM.</title>
     <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/scss" href="css/style.scss">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 
-
-
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 </head>
 
 <body>
 
     <?php
-    
-$dataCad =  date('Y-m-d H:i:s');
-$dataCad = date('Y-m-d H:i:s', strtotime('-1 Hour', strtotime($dataCad)));
+    function formataData($data)
+	{
+		if ($data) {
+			if($data == "0000-00-00") return "";
 
-require_once "sistema-controleDAO.php";
-conecta("local");
-
-                        $query = "SELECT * from controle_implantacoes";
-    $result = mysql_query($query);
-    while($fetch = mysql_fetch_row($result)){
-        echo "<p>";
-        foreach ($fetch as $value){
-            // echo $value . " | ";
-        }
-        // echo "</p>";
+			$explode = explode('-', $data);
+			return $explode[2] . "/" . $explode[1] . "/" . $explode[0];
+		} else {
+			return $data;
+		}
     }
+    
+    $dataCad = date('Y-m-d H:i:s');
+    $dataCad = date('Y-m-d H:i:s', strtotime('-1 Hour', strtotime($dataCad)));
 
-?>
+
+    require_once "sistema-controleDAO.php";
+    conecta("local");
+    mysql_set_charset("utf8");
+
+    // $select_fat = mysql_query("SELECT * from controle_implantacoes");
+    $select_fat = mysql_query("SELECT c.*, p.prioridade from controle_implantacoes c JOIN prioridade p ON c.cod_prioridade = p.id");
+
+    $result = mysql_fetch_assoc($select_fat);
+    $total = mysql_num_rows($select_fat);
+
+
+    
+    // var_dump($result);
+    // echo '<br>';
+
+    ?>
 
     <h1>Controle de implantações - TIM</h1>
     <div class="row">
@@ -59,58 +74,56 @@ conecta("local");
                         <table class="table-fill">
                             <thead>
                                 <tr>
-                                    <th class="text-left">Data</th>
+                                    <th class="text-data">Data</th>
                                     <th class="text-left">Colaborador</th>
                                     <th class="text-left">Concessionarias</th>
                                     <th class="text-left">Prioridade</th>
-                                    <th class="text-left">Mes Ref</th>
+                                    <th class="text-data">Mes Ref</th>
                                     <th class="text-left">Qtd</th>
                                     <th class="text-local">Local</th>
                                     <th class="text-left">Responsável</th>
                                     <th class="text-left">Status</th>
                                     <th class="text-left">Observação</th>
                                     <th class="text-left">Data de implantação</th>
-                                    <th class="text-left">Qtd implantada</th>
+                                    <th style="width:100px" class="gg">Qtd implantada</th>
                                 </tr>
                             </thead>
                             <tbody class="table-hover">
                                 <tr>
-                                <?php
-                                    while ($row = ibase_fetch_object ($query)) { 
-                                        echo '</tr>';
-                                        echo '<td>' . $row->id . '</td>';
-                                        echo '<td>' . $row->datainput . '</td>'; 
-                                        echo '<td>' . $row->colaborador . '</td>';
-                                        echo '<td>' . $row->concess . '</td>';
-                                        echo '<td>' . $row->prioridade . '</td>';
-                                        echo '<td>' . $row->mesref . '</td>';
-                                        echo '<td>' . $row->qtd . '</td>';
-                                        echo '<td>' . $row->local . '</td>';
-                                        echo '<td>' . $row->responsavel . '</td>';
-                                        echo '<td>' . $row->status . '</td>';
-                                        echo '<td>' . $row->observacao . '</td>';
-                                        echo '<td>' . $row->dataimplantacao . '</td>';
-                                        echo '<td>' . $row->qtdimplantada . '</td>';
-                                    }
-
-                                    ibase_free_result($query); 
-
-                                    ibase_close($sql_connect);
-
-                                    ?>
-                                    <td class="text-left"><?= $datainput ?></td>
-                                    <td class="text-left"><?= $colaborador ?></td>
-                                    <td class="text-left"><?= $concess ?></td>
-                                    <td class="text-left"><?= $prioridade ?></td>
-                                    <td class="text-left"><?= $mesref ?></td>
-                                    <td class="text-left"><?= $qtd ?></td>
-                                    <td class="text-local"><?= $local ?></td>
-                                    <td class="text-left"><?= $responsavel?></td>
-                                    <td class="text-left"><?= $status ?></td>
-                                    <td class="text-left"><?= $observacao ?></td>
-                                    <td class="text-left"><?= $dataimplantacao ?></td>
-                                    <td class="text-left"><?= $qtdimplantada ?></td>
+                                    <?php
+                                    
+                                if ($total > 0) {
+                                // inicia o loop que vai mostrar todos os dados
+                                    do {
+                                        ?>
+                                <tr>
+                                    <td class="text-data"> <?= formataData($result["datainput"]) ?></td>
+                                    <td class="text-left"><?= $result["colaborador"] ?></td>
+                                    <td class="text-left"><?= $result["concess"] ?></td>
+                                    <td class="text-left"><?= $result["prioridade"] ?></td>
+                                    <td class="text-data"><?= $result["mesref"] ?></td>
+                                    <td class="text-left"><?= $result["qtd"] ?></td>
+                                    <td onclick="setClipboard(String.raw`<?= $result["local"]?>`)" class="text-local"><?= $result["local"] ?> </td>
+                                    <td class="text-left"><?= $result["responsavel"] ?></td>
+                                    <td class="text-left"><?= $result["status"] ?></td>
+                                    <td class="text-left"><?= $result["observacao"] ?></td>
+                                    <td class="text-left"><?= $result["dataimplantada"] ?></td>
+                                    <td class="text-left"><?= $result["qtdimplantada"] ?></td>
+                                    <td class="edit-remove"><div class="t-cell collapse-md" data-label="">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                        <i class="fa fa-trash-o"></i>
+                                    </div></td>
                                 </tr>
+                                <?php
+                                // finaliza o loop que vai mostrar os dados
+
+
+                    } while ($result = mysql_fetch_assoc($select_fat));
+                            // fim do if
+
+
+                }
+                ?>
                             </tbody>
                         </table>
                     </div>
@@ -118,7 +131,7 @@ conecta("local");
                 <div class="tab">
                     <input type="checkbox" id="chck2">
                     <label class="tab-label" for="chck2">
-                    <div class="blobs-container">
+                        <div class="blobs-container">
                             <div class="blob green"></div>
                         </div>Implantações Concluídas.
                     </label>
@@ -155,20 +168,6 @@ conecta("local");
                                     <td class="text-left">11/12/2020</td>
                                     <td class="text-left">500</td>
                                 </tr>
-                                <tr>
-                                    <td class="text-left">01/01/2020</td>
-                                    <td class="text-left">Vitor</td>
-                                    <td class="text-left">CEPISA</td>
-                                    <td class="text-left">PRIORIDADE PM</td>
-                                    <td class="text-left">12/2020</td>
-                                    <td class="text-left">246</td>
-                                    <td class="text-local">Y:\Tim\Concessionarias Faturas\CEPISA (EQUATORIAL_PI) - AGRUPADA\2020\11_2020\1ª Separação renomear</td>
-                                    <td class="text-left">Vitor</td>
-                                    <td class="text-left">Convertendo</td>
-                                    <td class="text-left"> </td>
-                                    <td class="text-left">11/12/2020</td>
-                                    <td class="text-left">250</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -176,12 +175,12 @@ conecta("local");
                 <div class="tab">
                     <input type="checkbox" id="chck3">
                     <label class="tab-label" for="chck3">
-                    <div class="blobs-container">
+                        <div class="blobs-container">
                             <div class="blob green"></div>
                         </div>Downloads Robo.
                     </label>
                     <div class="tab-content">
-                    <!-- Botão!!!!!! -->
+                        <!-- Botão!!!!!! -->
                         <table class="table-fill">
                             <thead>
                                 <tr>
@@ -232,7 +231,7 @@ conecta("local");
                 <div class="tab">
                     <input type="checkbox" id="chck4">
                     <label class="tab-label" for="chck4">
-                    <div class="blobs-container">
+                        <div class="blobs-container">
                             <div class="blob green"></div>
                         </div>Relatórios.
                     </label>
@@ -261,6 +260,7 @@ conecta("local");
             </div>
         </div>
     </div>
+    
 
     <div class="made-with-love">
         Made with
@@ -268,7 +268,7 @@ conecta("local");
         <a target="_blank" href="">Vitor Belo</a>
     </div>
 
-    
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

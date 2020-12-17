@@ -114,6 +114,7 @@ fieldset {
 }
 
 #contact textarea {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     height: 50px;
     max-width: 100%;
     resize: none;
@@ -123,8 +124,7 @@ fieldset {
     cursor: pointer;
     width: 100%;
     border: none;
-    background: #0CF;
-    color: #FFF;
+    background: rgba(51, 217, 178, 1);    color: #FFF;
 /*    margin: 0 0 5px;*/
     padding: 10px;
     font-size: 15px;

@@ -14,6 +14,7 @@ function conecta($tipo, $exibir = false)
     }
 
     @mysql_select_db('sistemadecontrole', $link);
+    
 }
 
 ?>

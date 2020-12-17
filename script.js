@@ -1,4 +1,20 @@
-! function (e) {
+! init({
+    title: 'Filter Control',
+    desc: 'Use Plugin: bootstrap-table-filter-control to filter table fields.',
+    links: [
+      'bootstrap-table.min.css'
+    ],
+    scripts: [
+      'bootstrap-table.min.js',
+      'extensions/filter-control/bootstrap-table-filter-control.min.js'
+    ]
+  })
+
+  function mounted() {
+    $('#table').bootstrapTable()
+  }
+
+function e(){
     var t = function (t, n) {
         this.$element = e(t), this.type = this.$element.data("uploadtype") || (this.$element.find(".thumbnail").length > 0 ? "image" : "file"), this.$input = this.$element.find(":file");
         if (this.$input.length === 0) return;
@@ -101,3 +117,15 @@ function bs_input_file() {
 $(function() {
 	bs_input_file();
 });
+
+$("#btnCopiar").on('click',function(){var texto = document.getElementById("copiar"); texto.select(); document.execCommand("Copy"); });
+
+function setClipboard(value) {
+    var tempInput = document.createElement("input");
+    tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+    tempInput.value = value;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+}
