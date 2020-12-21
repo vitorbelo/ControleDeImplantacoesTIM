@@ -16,8 +16,8 @@ header("Content-Type: text/html; charset=utf-8", true);
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 </head>
 
 <body>
@@ -101,7 +101,7 @@ header("Content-Type: text/html; charset=utf-8", true);
                                     <td class="text-left"><?= $result["colaborador"] ?></td>
                                     <td class="text-left"><?= $result["concess"] ?></td>
                                     <td class="text-left"><?= $result["prioridade"] ?></td>
-                                    <td class="text-data"><?= $result["mesref"] ?></td>
+                                    <td class="text-data"><?= formataData($result["mesref"]) ?></td>
                                     <td class="text-left"><?= $result["qtd"] ?></td>
                                     <td onclick="setClipboard(String.raw`<?= $result["local"]?>`)" class="text-local"><?= $result["local"] ?> </td>
                                     <td class="text-left"><?= $result["responsavel"] ?></td>
@@ -109,10 +109,12 @@ header("Content-Type: text/html; charset=utf-8", true);
                                     <td class="text-left"><?= $result["observacao"] ?></td>
                                     <td class="text-left"><?= $result["dataimplantada"] ?></td>
                                     <td class="text-left"><?= $result["qtdimplantada"] ?></td>
-                                    <td class="edit-remove"><div class="t-cell collapse-md" data-label="">
-                                        <i class="fa fa-pencil-square-o"></i>
-                                        <i class="fa fa-trash-o"></i>
-                                    </div></td>
+                                    <td class="edit-remove">
+                                        <div class="t-cell collapse-md" data-label="">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                            <i class="fa fa-trash-o"></i>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <?php
                                 // finaliza o loop que vai mostrar os dados
@@ -192,9 +194,8 @@ header("Content-Type: text/html; charset=utf-8", true);
                                     <th class="text-left">Mês/Ano</th>
                                     <th class="text-local">Qtd baixando</th>
                                     <th class="text-left">Oservações</th>
-                                    <th class="text-left">Qtd total/Qtd baixada</th>
+                                    <th class="text-left">Qtd baixada</th>
                                     <th class="text-left">Relatório de Unidades</th>
-
                                 </tr>
                             </thead>
                             <tbody class="table-hover">
@@ -207,20 +208,7 @@ header("Content-Type: text/html; charset=utf-8", true);
                                     <td class="text-left">novembro/2020</td>
                                     <td class="text-left">102</td>
                                     <td class="text-left"> </td>
-                                    <td class="text-left">100/100/50</td>
-                                    <td class="text-left">Z:\Tim\- FATURAS BAIXAR\BAIXAR ROBO\14.12.2020</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="text-left">Baixando</td>
-                                    <td class="text-left">14/12/2020</td>
-                                    <td class="text-left">CELPE</td>
-                                    <td class="text-left">Vitor</td>
-                                    <td class="text-left">Tim robo 03</td>
-                                    <td class="text-left">novembro/2020</td>
-                                    <td class="text-left">102</td>
-                                    <td class="text-left"> </td>
-                                    <td class="text-left">100/100/50</td>
+                                    <td class="text-left">100</td>
                                     <td class="text-left">Z:\Tim\- FATURAS BAIXAR\BAIXAR ROBO\14.12.2020</td>
 
                                 </tr>
@@ -260,7 +248,7 @@ header("Content-Type: text/html; charset=utf-8", true);
             </div>
         </div>
     </div>
-    
+
 
     <div class="made-with-love">
         Made with

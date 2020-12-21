@@ -795,13 +795,13 @@ section {
     width: 6px;
 }
 
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 h1 {
     margin: 0;
@@ -1367,7 +1367,7 @@ input[type="checkbox"]:checked + label:hover span:before {
       display: none;
     }
     .t-row {
-      postion: relative;
+      position: relative;
     }
     .t-row.open {
       height: 160px;
