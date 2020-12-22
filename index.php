@@ -182,7 +182,7 @@ header("Content-Type: text/html; charset=utf-8", true);
                         </div>Downloads Robo.
                     </label>
                     <div class="tab-content">
-                        <!-- Botão!!!!!! -->
+                    <button class="bubbly-button" onclick="abrir('addrobo.php')">+ Adicionar separação.</button>
                         <table class="table-fill">
                             <thead>
                                 <tr>

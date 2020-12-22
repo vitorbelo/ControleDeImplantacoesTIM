@@ -15,6 +15,10 @@ $Observacoes = $_POST['Observacoes'];
     $dataCad = date('Y-m-d');
     //$dataCad = date('Y-m-d H:i:s', strtotime('-1 Hour', strtotime($dataCad)));
 
+    //formatação mes p/ tabela
+
+    
+
 $sql = "INSERT INTO controle_implantacoes (datainput,colaborador,concess,cod_prioridade,mesref,qtd,`local`,observacao) VALUES ";
     $sql .= "('{$dataCad}', '$Colaborador', '$Concessionaria', '$prioridade', '2020-12-01', '$Quantidade', '$Local', '$Observacoes')";
     echo $sql;
